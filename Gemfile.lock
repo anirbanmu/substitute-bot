@@ -1,16 +1,9 @@
-GIT
-  remote: https://github.com/avinashbot/redd.git
-  revision: 3b1519a2d121efd18de59b935da6e652757eee90
-  specs:
-    redd (0.9.0.pre.3)
-      http (~> 2.2)
-      lazy_lazer (~> 0.8.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    diff-lcs (1.3)
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
     http (2.2.2)
@@ -24,13 +17,32 @@ GEM
     http_parser.rb (0.6.0-java)
     lazy_lazer (0.8.1)
     public_suffix (3.0.1)
+    redd (0.9.0.pre.3)
+      http (~> 2.2)
+      lazy_lazer (~> 0.8.1)
+    rspec (3.7.0)
+      rspec-core (~> 3.7.0)
+      rspec-expectations (~> 3.7.0)
+      rspec-mocks (~> 3.7.0)
+    rspec-core (3.7.1)
+      rspec-support (~> 3.7.0)
+    rspec-expectations (3.7.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.7.0)
+    rspec-mocks (3.7.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.7.0)
+    rspec-support (3.7.1)
     unf (0.1.4-java)
+    workers (0.6.1)
 
 PLATFORMS
   java
 
 DEPENDENCIES
-  redd!
+  redd (>= 0.9.0.pre.3)
+  rspec (~> 3.7)
+  workers
 
 RUBY VERSION
    ruby 2.3.3p0 (jruby 9.1.15.0)
