@@ -20,4 +20,10 @@ class SubstituteWorker < Workers::Worker
     text.match(/\As[\/#](.+)[\/#](.*)$/){ |m| return m.captures }
     nil
   end
+
+  def self.substitute(original, search, replacement)
+    modified = original.gsub(Regexp.new(search), replacement)
+    return nil if modified == original
+    modified
+  end
 end

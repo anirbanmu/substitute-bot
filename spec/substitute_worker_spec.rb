@@ -38,4 +38,26 @@ RSpec.describe SubstituteWorker do
       expect(SubstituteWorker::scan_for_substitute_command("s/sp ace/s pace\nshould not be there")).to eq(['sp ace', 's pace'])
     end
   end
+
+  describe '.substitute' do
+    it 'returns nil if nothing is changed' do
+      expect(SubstituteWorker::substitute('text', 'nomatch', 'blah')).to be_nil
+    end
+
+    it 'can handle spaces in match & replacement' do
+      expect(SubstituteWorker::substitute('text beep', 'ext bee', 't e')).to eq('tt ep')
+    end
+
+    it 'treats match as regex' do
+      expect(SubstituteWorker::substitute('text', '\w+', 'blah')).to eq('blah')
+    end
+
+    it 'does not perform any processing on match string' do
+      expect(SubstituteWorker::substitute('2', '#{1+1}', '3')).to be_nil
+    end
+
+    it 'can use capture groups in replacement' do
+      expect(SubstituteWorker::substitute('23', '(\d)', '<\1>')).to eq('<2><3>')
+    end
+  end
 end
