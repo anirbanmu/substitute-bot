@@ -14,4 +14,10 @@ class SubstituteWorker < Workers::Worker
 
   def handle_new_comment(data)
   end
+
+  def self.scan_for_substitute_command(text)
+    return nil if !text
+    text.match(/\As[\/#](.+)[\/#](.*)$/){ |m| return m.captures }
+    nil
+  end
 end
