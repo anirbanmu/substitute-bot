@@ -30,7 +30,7 @@ class SubstituteWorker < Workers::Worker
     return unless substituted
 
     reply = comment.reply(substituted +
-                          "\n\n This was posted by a bot. Upvote me if you like what I did. [Source](#{bot_config[:source_url]})".gsub(/\s/, ' ^^'))
+                          "\n\n This was posted by a bot. Upvote me if you like what I did. [Source](#{bot_config[:source_url]})".gsub(/ /, ' ^^'))
     puts "Posted reply. id: #{reply.name}"
   end
 
