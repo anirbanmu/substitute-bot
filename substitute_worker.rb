@@ -8,21 +8,29 @@ class SubstituteWorker < Workers::Worker
   def event_handler(event)
     case event.command
     when :new_comment
-      self.class.handle_new_comment event.data
+      handle_new_comment event.data
     else
       super(event)
     end
   end
 
   def reddit_session
-    @reddit_session ||= Redd.it(user_agent: reddit_config[:user_agent],
-                                client_id: reddit_config[:client_id],
-                                secret: reddit_config[:client_secret],
-                                username: reddit_config[:bot_username],
-                                password: reddit_config[:bot_password])
+    @reddit_session ||= Redd.it(reddit_session_params)
   end
 
   def handle_new_comment(data)
+    command = self.class.scan_for_substitute_command(data[:body])
+    return unless command
+
+    comment = reddit_session.from_ids(data[:id]).first
+    parent = comment.parent
+    return unless parent.is_a?(Redd::Models::Comment)
+
+    substituted = self.class.substitute(parent.body, command[0], "\*\*#{command[1]}\*\*")
+    return unless substituted
+
+    reply = comment.reply(substituted + "\n\n^This was posted by a bot. Upvote me if you like what I did. [Source](#{bot_config[:source_url]}")
+    puts "Posted reply. id: #{reply.name}"
   end
 
   def self.scan_for_substitute_command(text)
