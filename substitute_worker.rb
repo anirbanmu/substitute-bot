@@ -29,7 +29,8 @@ class SubstituteWorker < Workers::Worker
     substituted = self.class.substitute(parent.body, command[0], "\*\*#{command[1]}\*\*")
     return unless substituted
 
-    reply = comment.reply(substituted + "\n\n^This was posted by a bot. Upvote me if you like what I did. [Source](#{bot_config[:source_url]}")
+    reply = comment.reply(substituted +
+                          "\n\n This was posted by a bot. Upvote me if you like what I did. [Source](#{bot_config[:source_url]})".gsub(/\s/, ' ^^'))
     puts "Posted reply. id: #{reply.name}"
   end
 
