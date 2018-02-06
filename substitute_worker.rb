@@ -1,4 +1,6 @@
 require 'workers'
+require 'redd'
+require_relative 'config'
 
 class SubstituteWorker < Workers::Worker
   private
@@ -10,6 +12,14 @@ class SubstituteWorker < Workers::Worker
     else
       super(event)
     end
+  end
+
+  def reddit_session
+    @reddit_session ||= Redd.it(user_agent: reddit_config[:user_agent],
+                                client_id: reddit_config[:client_id],
+                                secret: reddit_config[:client_secret],
+                                username: reddit_config[:bot_username],
+                                password: reddit_config[:bot_password])
   end
 
   def handle_new_comment(data)
