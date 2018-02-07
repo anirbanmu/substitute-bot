@@ -60,7 +60,7 @@ class SubstituteWorker
 
   def self.scan_for_substitute_command(text)
     return nil if !text
-    text.match(/\As[\/#](.+)[\/#](.*)$/){ |m| return m.captures }
+    text.match(/\As([\/#])(.+)\1(.*)$/) { |m| return m.captures[1..2] }
     nil
   end
 
