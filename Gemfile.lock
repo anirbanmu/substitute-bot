@@ -37,7 +37,6 @@ GEM
     sucker_punch (2.0.4)
       concurrent-ruby (~> 1.0.0)
     unf (0.1.4-java)
-    workers (0.6.1)
 
 PLATFORMS
   java
@@ -46,7 +45,6 @@ DEPENDENCIES
   redd (>= 0.9.0.pre.3)
   rspec (~> 3.7)
   sucker_punch (~> 2.0)
-  workers
 
 RUBY VERSION
    ruby 2.3.3p0 (jruby 9.1.15.0)
