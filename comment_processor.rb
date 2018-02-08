@@ -2,7 +2,7 @@ require 'redd'
 require 'sucker_punch'
 require_relative 'globals'
 
-class SubstituteWorker
+class CommentProcessor
   include SuckerPunch::Job
   workers 4
 
@@ -60,7 +60,7 @@ class SubstituteWorker
 
     puts "Hit ratelimit error. Rescheduling to run in #{seconds} seconds. id: #{comment_id}"
 
-    SubstituteWorker::perform_in(seconds, comment_id, comment_body)
+    CommentProcessor::perform_in(seconds, comment_id, comment_body)
   end
 
   def self.blurb
