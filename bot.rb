@@ -1,4 +1,4 @@
-require_relative 'config'
+require_relative 'globals'
 require_relative 'substitute_worker'
 
 require 'redd'

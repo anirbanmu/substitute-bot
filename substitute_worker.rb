@@ -1,6 +1,6 @@
 require 'redd'
 require 'sucker_punch'
-require_relative 'config'
+require_relative 'globals'
 
 class SubstituteWorker
   include SuckerPunch::Job
