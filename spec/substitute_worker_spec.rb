@@ -60,4 +60,27 @@ RSpec.describe SubstituteWorker do
       expect(SubstituteWorker::substitute('23', '(\d)', '<\1>')).to eq('<2><3>')
     end
   end
+
+  describe '.reschedule_after_ratelimit' do
+    let(:comment_id) { 'COMMENT ID' }
+    let(:comment_body) { 'COMMENT BODY'}
+
+    it 'schedules job in correct amount of seconds' do
+      time = 5
+      expect(SubstituteWorker).to receive(:perform_in).with(time + 5, comment_id, comment_body)
+      SubstituteWorker::reschedule_after_ratelimit(comment_id, comment_body, "try again in #{time} seconds.")
+    end
+
+    it 'schedules job in correct amount of minutes' do
+      time = 5
+      expect(SubstituteWorker).to receive(:perform_in).with(time * 60 + 5, comment_id, comment_body)
+      SubstituteWorker::reschedule_after_ratelimit(comment_id, comment_body, "try again in #{time} minutes.")
+    end
+
+    it 'schedules job in correct amount of hours' do
+      time = 5
+      expect(SubstituteWorker).to receive(:perform_in).with(time * 60 * 60 + 5, comment_id, comment_body)
+      SubstituteWorker::reschedule_after_ratelimit(comment_id, comment_body, "try again in #{time} hours.")
+    end
+  end
 end
