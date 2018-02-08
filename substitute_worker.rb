@@ -8,7 +8,7 @@ class SubstituteWorker
 
   def perform(comment_id, comment_body)
     begin
-      handle_new_comment(comment_id, comment_body)
+      self.class.handle_new_comment(comment_id, comment_body)
     rescue Redd::Errors::APIError => e
       error = e.response.body[:json][:errors][0]
       raise unless error[0].downcase == 'ratelimit'
@@ -20,27 +20,35 @@ class SubstituteWorker
 
   @@reddit_session = Concurrent::ThreadLocalVar.new(nil)
 
-  def reddit_session
+  def self.reddit_session
     @@reddit_session.value ||= Redd.it(reddit_session_params)
   end
 
-  def handle_new_comment(comment_id, comment_body)
-    command = self.class.scan_for_substitute_command(comment_body)
+  def self.handle_new_comment(comment_id, comment_body)
+    command = scan_for_substitute_command(comment_body)
     return unless command
 
     comment = reddit_session.from_ids(comment_id).first
-    parent = comment.parent
-    return unless parent.is_a?(Redd::Models::Comment)
+    parent = get_parent_comment(comment)
+    return unless parent
 
     # Don't respond to self comments
-    return if reddit_session_params[:username] == comment.author.name.downcase
-    return if reddit_session_params[:username] == parent.author.name.downcase
+    return unless should_respond(reddit_session_params[:username], comment.author.name.downcase, parent.author.name.downcase)
 
-    substituted = self.class.substitute(parent.body, command[0], "**#{command[1]}**")
+    substituted = substitute(parent.body, command[0], "**#{command[1]}**")
     return unless substituted
 
-    reply = comment.reply(substituted + self.class.blurb)
+    reply = comment.reply(substituted + blurb)
     puts "Posted reply. id: #{reply.name}"
+  end
+
+  def self.get_parent_comment(comment)
+    parent = comment.parent
+    parent.is_a?(Redd::Models::Comment) ? parent : nil
+  end
+
+  def self.should_respond(bot_user, comment_author, parent_comment_author)
+    comment_author != bot_user && parent_comment_author != bot_user
   end
 
   def self.reschedule_after_ratelimit(comment_id, comment_body, message)

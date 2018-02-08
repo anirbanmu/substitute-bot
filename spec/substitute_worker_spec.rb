@@ -41,7 +41,7 @@ RSpec.describe SubstituteWorker do
 
   describe '.substitute' do
     it 'returns nil if nothing is changed' do
-      expect(SubstituteWorker::substitute('text', 'nomatch', 'blah')).to be_nil
+      expect(SubstituteWorker::substitute('text', 'ex', 'ex')).to be_nil
     end
 
     it 'can handle spaces in match & replacement' do
@@ -81,6 +81,41 @@ RSpec.describe SubstituteWorker do
       time = 5
       expect(SubstituteWorker).to receive(:perform_in).with(time * 60 * 60 + 5, comment_id, comment_body)
       SubstituteWorker::reschedule_after_ratelimit(comment_id, comment_body, "try again in #{time} hours.")
+    end
+  end
+
+  describe '.get_parent_comment' do
+    let(:comment) { double(parent: double) }
+
+    it 'returns nil when parent says it is not a comment' do
+      expect(comment.parent).to receive(:is_a?).with(Redd::Models::Comment).and_return(false)
+      expect(SubstituteWorker::get_parent_comment(comment)).to be_nil
+    end
+
+    it 'returns parent when parent says it is a comment' do
+      expect(comment.parent).to receive(:is_a?).with(Redd::Models::Comment).and_return(true)
+      expect(SubstituteWorker::get_parent_comment(comment)).to eq(comment.parent)
+    end
+  end
+
+  describe '.should_respond' do
+    let(:bot_name) { 'bot' }
+    let(:not_bot_name) { 'not-bot' }
+
+    it 'returns true when no authors are self' do
+      expect(SubstituteWorker::should_respond(bot_name, not_bot_name, not_bot_name)).to be true
+    end
+
+    it 'returns false when comment author is self' do
+      expect(SubstituteWorker::should_respond(bot_name, bot_name, not_bot_name)).to be false
+    end
+
+    it 'returns false when parent author is self' do
+      expect(SubstituteWorker::should_respond(bot_name, not_bot_name, bot_name)).to be false
+    end
+
+    it 'returns false when both authors are self' do
+      expect(SubstituteWorker::should_respond(bot_name, bot_name, bot_name)).to be false
     end
   end
 end
