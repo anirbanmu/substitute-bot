@@ -11,4 +11,5 @@ gem "sucker_punch", "~> 2.0"
 
 group :test do
   gem "rspec", "~> 3.7"
+  gem "simplecov", "~> 0.15.1"
 end
