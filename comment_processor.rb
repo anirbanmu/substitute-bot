@@ -1,14 +1,15 @@
 require 'redd'
 require 'sucker_punch'
-require_relative 'config'
+require_relative 'globals'
+require_relative 'reply_store'
 
-class SubstituteWorker
+class CommentProcessor
   include SuckerPunch::Job
   workers 4
 
   def perform(comment_id, comment_body)
     begin
-      self.class.handle_new_comment(comment_id, comment_body)
+      ReplyStore::save_reply(self.class.handle_new_comment(comment_id, comment_body))
     rescue Redd::Errors::APIError => e
       error = e.response.body[:json][:errors][0]
       raise unless error[0].downcase == 'ratelimit'
@@ -40,6 +41,7 @@ class SubstituteWorker
 
     reply = comment.reply(substituted + blurb)
     puts "Posted reply. id: #{reply.name}"
+    reply.name
   end
 
   def self.get_parent_comment(comment)
@@ -60,7 +62,7 @@ class SubstituteWorker
 
     puts "Hit ratelimit error. Rescheduling to run in #{seconds} seconds. id: #{comment_id}"
 
-    SubstituteWorker::perform_in(seconds, comment_id, comment_body)
+    CommentProcessor::perform_in(seconds, comment_id, comment_body)
   end
 
   def self.blurb
