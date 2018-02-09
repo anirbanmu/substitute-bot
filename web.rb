@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'trinidad'
 
+require_relative 'globals'
+
 configure do
   set :server, :trinidad
 end

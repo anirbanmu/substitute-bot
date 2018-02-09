@@ -3,3 +3,17 @@
   %h2 VIM-style search & replacement for Reddit comments
 
 .content
+  %p Substitute-Bot is a combination of a bot for Reddit that provides VIM style search + replace functionality for comments and also a front end web component (what you're reading right now). Written in Ruby utilizing the gems redd + sucker_punch (for the backend bot) & sinatra (for this web frontend). Redis is utilized very lightly for keeping a running list of posted comments.
+
+  %p Syntax is VIM-like - <code>s/SEARCH/REPLACE</code> or <code>s#SEARCH#REPLACE</code>.
+
+  .pure-g.center-text#link-icon-row
+    .pure-u-1-3
+      %a{ href: bot_config[:source_url] }
+        %i.fab.fa-5x.fa-github
+    .pure-u-1-3
+      %a{ href: 'https://www.reddit.com/user/' + reddit_config[:bot_username] }
+        %i.fab.fa-5x.fa-reddit
+    .pure-u-1-3
+      %a{ href: 'https://www.reddit.com/message/compose/?to=' + reddit_config[:bot_username] }
+        %i.far.fa-5x.fa-envelope
