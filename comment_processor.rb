@@ -1,6 +1,7 @@
 require 'redd'
 require 'sucker_punch'
 require_relative 'globals'
+require_relative 'reply_store'
 
 class CommentProcessor
   include SuckerPunch::Job
@@ -8,7 +9,7 @@ class CommentProcessor
 
   def perform(comment_id, comment_body)
     begin
-      self.class.handle_new_comment(comment_id, comment_body)
+      ReplyStore::save_reply(self.class.handle_new_comment(comment_id, comment_body))
     rescue Redd::Errors::APIError => e
       error = e.response.body[:json][:errors][0]
       raise unless error[0].downcase == 'ratelimit'
@@ -40,6 +41,7 @@ class CommentProcessor
 
     reply = comment.reply(substituted + blurb)
     puts "Posted reply. id: #{reply.name}"
+    reply.name
   end
 
   def self.get_parent_comment(comment)
