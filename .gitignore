@@ -56,5 +56,7 @@ build-iPhoneSimulator/
 # simplecov
 coverage
 
+# sass
+.sass-cache
 
 # End of https://www.gitignore.io/api/ruby

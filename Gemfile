@@ -12,6 +12,7 @@ gem "redis-namespace", "~> 1.6"
 gem "sinatra", "~> 2.0"
 gem "trinidad", "~> 1.4"
 gem "haml", "~> 5.0"
+gem "sass", "~> 3.5"
 
 group :test do
   gem "rspec", "~> 3.7"
