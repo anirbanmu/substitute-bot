@@ -9,7 +9,7 @@ class CommentProcessor
 
   def perform(comment_id, comment_body)
     begin
-      ReplyStore::save_reply(self.class.handle_new_comment(comment_id, comment_body))
+      self.class.handle_new_comment(comment_id, comment_body)
     rescue Redd::Errors::APIError => e
       error = e.response.body[:json][:errors][0]
       raise unless error[0].downcase == 'ratelimit'
@@ -30,18 +30,25 @@ class CommentProcessor
     return unless command
 
     comment = reddit_session.from_ids(comment_id).first
+    requester = comment.author
     parent = get_parent_comment(comment)
     return unless parent
 
     # Don't respond to self comments
-    return unless should_respond(reddit_session_params[:username], comment.author.name.downcase, parent.author.name.downcase)
+    return unless should_respond(reddit_session_params[:username], requester.name.downcase, parent.author.name.downcase)
 
     substituted = substitute(parent.body, command[0], "**#{command[1]}**")
     return unless substituted
 
     reply = comment.reply(substituted + blurb)
     puts "Posted reply. id: #{reply.name}"
-    reply.name
+
+    ReplyStore::save_reply_details(reply.name,
+                                   id: reply.id,
+                                   created_at: reply.created_at.to_i,
+                                   body_html: reply.body_html,
+                                   requester: requester.name,
+                                   link_id: reply.link.id)
   end
 
   def self.get_parent_comment(comment)
