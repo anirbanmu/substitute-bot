@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'trinidad'
-require 'redd'
 
 require_relative 'globals'
 require_relative 'reply_store'
@@ -10,7 +9,7 @@ configure do
 end
 
 get '/' do
-  haml :index, locals: { replies: Redd.it(reddit_session_params).from_ids(ReplyStore::get_replies) }
+  haml :index, locals: { replies: ReplyStore::get_replies_with_details }
 end
 
 get '/stylesheets/style.css' do

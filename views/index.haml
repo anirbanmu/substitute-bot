@@ -22,10 +22,10 @@
     %h2 Recent replies from bot
     - replies.each do |r|
       .pure-g.reply-row
-        .pure-u-4-5= r.body_html
+        .pure-u-4-5= r['body_html']
         .pure-u-1-5.reply-details
-          %p= r.created_at.strftime('%B %d, %Y')
+          %p= DateTime.strptime(r['created_at'],'%s').strftime('%B %d, %Y')
           %p
             %span Requested by
-            %a{ href: "https://www.reddit.com/u/#{r.parent.author.name}" }= "/u/#{r.parent.author.name}"
-          %a{ href: "https://www.reddit.com/comments/#{r.link.id}/placeholder/#{r.id}" } Comment link
+            %a{ href: "https://www.reddit.com/u/#{r['requester']}" }= "/u/#{r['requester']}"
+          %a{ href: "https://www.reddit.com/comments/#{r['link_id']}/placeholder/#{r['id']}" } Comment link
