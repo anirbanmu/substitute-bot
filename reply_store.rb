@@ -18,7 +18,7 @@ module ReplyStore
     $redis.lrange(REPLIES_LIST_KEY, 0, 49)
   end
 
-  # details is a Hash - created_at, body_html, requester, link_id
+  # details is a Hash - id, created_at, body_html, requester, link_id
   def self.save_reply_details(id, details)
     return false if id.nil? || id == ''
 
@@ -46,5 +46,9 @@ module ReplyStore
 
   def self.reply_details_key(id)
     REPLY_DETAILS_PREPEND + id
+  end
+
+  def self.get_replies_with_details(limit = 50)
+    $redis.lrange(REPLIES_LIST_KEY, 0, limit - 1).map{ |id| $redis.hgetall(reply_details_key(id)) }.select{ |d| d != {} }
   end
 end
