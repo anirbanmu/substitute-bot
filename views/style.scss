@@ -43,6 +43,7 @@ body {
 }
 
 .replies {
+  padding: 0em;
   margin-top: 3em;
   h2 {
     color: $grey;
@@ -51,6 +52,11 @@ body {
 
   .reply-row {
     #border-bottom: 1px solid #eee;
+    margin: 0.82em;
+    border: 1px solid #aaa;
+    border-radius: 1.0em;
+    padding: 0.70em;
+
     p {
       padding: 0;
       margin: 0;
@@ -59,6 +65,7 @@ body {
     .reply-details {
       font-size: 0.6em;
       line-height: 1.2em;
+      text-align: right;
     }
   }
 }
