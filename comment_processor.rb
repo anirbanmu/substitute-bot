@@ -73,7 +73,7 @@ class CommentProcessor
   end
 
   def self.blurb
-    "\n\n This was posted by a bot. Upvote me if you like what I did. [Source](#{bot_config[:source_url]})".gsub(/ /, ' ^^')
+    "\n\n This was posted by a bot. [Source](#{bot_config[:source_url]})".gsub(/ /, ' ^^')
   end
 
   def self.scan_for_substitute_command(text)
