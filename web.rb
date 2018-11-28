@@ -1,5 +1,7 @@
 require 'sinatra'
 require 'trinidad'
+require 'bundler/setup'
+require 'tilt/sassc'
 
 require_relative 'globals'
 require_relative 'reply_store'
