@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/anirbanmu/tilt-sassc.git
+  revision: 15d5ef3e7409f68708348ae93caaac693cc75cb2
+  specs:
+    tilt-sassc (0.1.2)
+      sassc (~> 2.0)
+      tilt (~> 2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -84,6 +92,7 @@ DEPENDENCIES
   simplecov (~> 0.15.1)
   sinatra (~> 2.0)
   sucker_punch (~> 2.0)
+  tilt-sassc!
   trinidad (~> 1.4)
 
 RUBY VERSION

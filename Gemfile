@@ -12,10 +12,10 @@ gem "redis-namespace", "~> 1.6"
 gem "sinatra", "~> 2.0"
 gem "trinidad", "~> 1.4"
 gem "haml", "~> 5.0"
+gem "sassc", "~> 2.0"
+gem "tilt-sassc", github: "anirbanmu/tilt-sassc.git"
 
 group :test do
   gem "rspec", "~> 3.7"
   gem "simplecov", "~> 0.15.1"
 end
-
-gem "sassc", "~> 2.0"
