@@ -1,11 +1,3 @@
-GIT
-  remote: https://github.com/anirbanmu/tilt-sassc.git
-  revision: 15d5ef3e7409f68708348ae93caaac693cc75cb2
-  specs:
-    tilt-sassc (0.1.2)
-      sassc (~> 2.0)
-      tilt (~> 2.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -37,11 +29,11 @@ GEM
     rack (2.0.6)
     rack-protection (2.0.4)
       rack
-    rake (12.3.1)
+    rake (12.3.2)
     redd (0.9.0.pre.3)
       http (~> 2.2)
       lazy_lazer (~> 0.8.1)
-    redis (4.0.3)
+    redis (4.1.0)
     redis-namespace (1.6.0)
       redis (>= 3.0.4)
     rspec (3.8.0)
@@ -73,7 +65,7 @@ GEM
     sucker_punch (2.1.1)
       concurrent-ruby (~> 1.0)
     temple (0.8.0)
-    tilt (2.0.8)
+    tilt (2.0.9)
     trinidad (1.4.6)
       jruby-rack (~> 1.1.13)
       trinidad_jars (>= 1.3.0, < 1.5.0)
@@ -92,11 +84,10 @@ DEPENDENCIES
   simplecov (~> 0.15.1)
   sinatra (~> 2.0)
   sucker_punch (~> 2.0)
-  tilt-sassc!
   trinidad (~> 1.4)
 
 RUBY VERSION
-   ruby 2.5.0p0 (jruby 9.2.4.0)
+   ruby 2.5.0p0 (jruby 9.2.5.0)
 
 BUNDLED WITH
-   1.17.1
+   1.17.2

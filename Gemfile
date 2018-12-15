@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-ruby '2.5', engine: 'jruby', engine_version: '9.2.4.0'
+ruby '2.5', engine: 'jruby', engine_version: '9.2.5.0'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
@@ -13,7 +13,6 @@ gem "sinatra", "~> 2.0"
 gem "trinidad", "~> 1.4"
 gem "haml", "~> 5.0"
 gem "sassc", "~> 2.0"
-gem "tilt-sassc", github: "anirbanmu/tilt-sassc.git"
 
 group :test do
   gem "rspec", "~> 3.7"
