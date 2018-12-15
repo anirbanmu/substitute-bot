@@ -1,5 +1,7 @@
 # substitute-bot
 
+[![CircleCI](https://circleci.com/gh/anirbanmu/substitute-bot.svg?style=shield)](https://circleci.com/gh/anirbanmu/substitute-bot)
+
 A [Reddit](https://www.reddit.com/) bot that provides the ability to search and replace parent comments. Supports Ruby regular expression syntax.
 
 ## Setup

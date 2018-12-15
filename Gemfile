@@ -16,5 +16,6 @@ gem "sassc", "~> 2.0"
 
 group :test do
   gem "rspec", "~> 3.7"
+  gem "rspec_junit_formatter", "~> 0.4"
   gem "simplecov", "~> 0.15.1"
 end
